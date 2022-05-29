@@ -26,12 +26,13 @@ class MainActivity : AppCompatActivity() {
         InternalLoggerFactory.setDefaultFactory(JdkLoggerFactory.INSTANCE)
 
 
-        createRouter(vertx, "Earth")
-        createRouter(vertx, "Solar")
+        createPortable(vertx, "Earth")
+        createPortable(vertx, "Solar")
+
 
     }
 
-    private fun createRouter(vertx: Vertx, address: String) {
+    private fun createPortable(vertx: Vertx, address: String) : Portable {
         val route: Route = Router.router(vertx).route(address)
 
         route.handler {
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             response.putHeader("content-type", "text/plane")
             response.end("Hello $address")
         }
-
+        return Portable(route)
     }
 
 
